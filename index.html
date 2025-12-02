@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangkuman Materi Bahasa Arab Kelas 5</title>
+    
+    <!-- Fonts: Noto Sans for UI, Amiri for Arabic text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Noto Sans', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    },
+                    colors: {
+                        'arab-cream': '#FDFBF7',
+                        'arab-gold': '#D4AF37',
+                        'arab-green': '#0F5132',
+                        'arab-green-light': '#D1E7DD',
+                        'arab-accent': '#B91C1C',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom scrollbar for better UX */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b5952f; 
+        }
+        
+        .arabic-text {
+            direction: rtl;
+            line-height: 2;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Chart Container Styles - Mandatory */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px; /* Constrain max width */
+            height: 300px;
+            max-height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .tab-btn.active {
+            border-bottom: 4px solid #D4AF37;
+            color: #0F5132;
+            font-weight: bold;
+        }
+    </style>
+
+    <!-- Chosen Palette: Arabesque Learning -->
+    <!-- Application Structure Plan: Tabs for Posisi, Huna/Hunaka, Kepemilikan, and Expanded Quiz -->
+    <!-- Visualization & Content Choices: 
+         - Updated 'Kepemilikan' layout with better spacing/margins.
+         - Expanded Quiz logic to handle Mixed Types (Multiple Choice & True/False).
+         - Logic now supports 15 questions total. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+</head>
+<body class="bg-arab-cream text-gray-800 min-h-screen flex flex-col font-sans">
+
+    <!-- Header -->
+    <header class="bg-arab-green text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl md:text-2xl font-bold font-arabic">تَعَلَّمْ الْعَرَبِيَّةَ</h1>
+                <p class="text-xs md:text-sm text-arab-green-light">Materi Bahasa Arab Kelas 5</p>
+            </div>
+            <div class="hidden md:block text-right">
+                <span class="text-sm opacity-90">Topik: Posisi, Petunjuk, & Kepemilikan</span>
+            </div>
+        </div>
+        
+        <!-- Navigation Tabs -->
+        <nav class="bg-white text-gray-600 shadow-sm overflow-x-auto">
+            <div class="container mx-auto px-4 flex whitespace-nowrap">
+                <button onclick="switchTab('home')" id="tab-home" class="tab-btn active px-4 py-3 hover:text-arab-green transition-colors">🏠 Beranda</button>
+                <button onclick="switchTab('posisi')" id="tab-posisi" class="tab-btn px-4 py-3 hover:text-arab-green transition-colors">📍 Posisi (Zharaf)</button>
+                <button onclick="switchTab('petunjuk')" id="tab-petunjuk" class="tab-btn px-4 py-3 hover:text-arab-green transition-colors">👈 Di Sini/Sana</button>
+                <button onclick="switchTab('milik')" id="tab-milik" class="tab-btn px-4 py-3 hover:text-arab-green transition-colors">🎒 Kepemilikan</button>
+                <button onclick="switchTab('kuis')" id="tab-kuis" class="tab-btn px-4 py-3 hover:text-arab-green transition-colors">📝 Latihan (Baru)</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-6 flex-grow mb-12">
+
+        <!-- SECTION: HOME -->
+        <section id="content-home" class="fade-in block">
+            <div class="bg-white rounded-xl shadow-md p-6 md:p-10 border-t-4 border-arab-gold text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-arab-green mb-4">Selamat Datang di Kelas Bahasa Arab!</h2>
+                <p class="text-lg text-gray-600 mb-6">
+                    Aplikasi ini dirancang untuk membantu teman-teman memahami materi 
+                    <strong>Keterangan Tempat</strong>, <strong>Kata Tunjuk</strong>, dan <strong>Kepemilikan</strong> 
+                    dengan cara yang seru dan interaktif.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-left">
+                    <div class="p-4 bg-green-50 rounded-lg border border-green-100 cursor-pointer hover:shadow-md transition" onclick="switchTab('posisi')">
+                        <div class="text-2xl mb-2">📍</div>
+                        <h3 class="font-bold text-arab-green">Posisi Benda</h3>
+                        <p class="text-sm text-gray-500">Belajar kata "di atas", "di bawah", "di depan" secara visual.</p>
+                    </div>
+                    <div class="p-4 bg-amber-50 rounded-lg border border-amber-100 cursor-pointer hover:shadow-md transition" onclick="switchTab('petunjuk')">
+                        <div class="text-2xl mb-2">👈</div>
+                        <h3 class="font-bold text-arab-gold">Di Sini & Di Sana</h3>
+                        <p class="text-sm text-gray-500">Memahami aturan penggunaan kata <i>Huna</i> dan <i>Hunaka</i>.</p>
+                    </div>
+                    <div class="p-4 bg-blue-50 rounded-lg border border-blue-100 cursor-pointer hover:shadow-md transition" onclick="switchTab('milik')">
+                        <div class="text-2xl mb-2">🎒</div>
+                        <h3 class="font-bold text-blue-800">Kepemilikan</h3>
+                        <p class="text-sm text-gray-500">Rumus merubah kata benda menjadi "milikku", "milikmu", dll.</p>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button onclick="switchTab('posisi')" class="bg-arab-green text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-green-800 transition transform hover:-translate-y-1">Mulai Belajar 🚀</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: POSISI (ZHARAF MAKAN) -->
+        <section id="content-posisi" class="fade-in hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-arab-green mb-2">📍 Keterangan Tempat (Zharaf Makan)</h2>
+                <p class="text-gray-600">Pelajari kata-kata posisi dengan simulator di bawah ini. Klik tombol bahasa Arab untuk melihat arti dan perubahannya.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Interactive Playground -->
+                <div class="bg-white p-6 rounded-xl shadow-md border border-gray-100">
+                    <h3 class="font-bold text-lg mb-4 text-center border-b pb-2">Simulator Posisi</h3>
+                    
+                    <!-- Visual Stage -->
+                    <div class="relative w-full h-64 bg-amber-50 rounded-lg border-2 border-dashed border-arab-gold flex items-center justify-center overflow-hidden mb-6">
+                        <!-- Reference Object (Table) -->
+                        <div class="absolute text-6xl transition-all duration-500 z-10">🪑</div>
+                        <!-- Moving Object (Book) -->
+                        <div id="moving-object" class="absolute text-4xl transition-all duration-500 z-20" style="transform: translate(0, -50px);">📕</div>
+                    </div>
+
+                    <!-- Sentence Display -->
+                    <div class="text-center mb-6 bg-arab-green-light p-4 rounded-lg">
+                        <p class="text-sm text-gray-500 mb-2">Contoh Kalimat:</p> 
+                        <h4 id="posisi-arabic" class="text-3xl font-bold font-arabic text-arab-green mb-4 leading-loose">الكِتَابُ عَلَى الكُرْسِيِّ</h4> 
+                        <p id="posisi-indo" class="text-lg font-medium text-gray-700">Buku itu di atas kursi</p>
+                    </div>
+
+                    <!-- Controls -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="zharaf-buttons">
+                        <button onclick="updatePosisi('fii', this)" class="zharaf-btn p-2 bg-white border hover:bg-arab-green hover:text-white rounded transition text-center shadow-sm">
+                            <span class="block font-arabic text-xl">فِي</span>
+                            <span class="text-xs">Di dalam</span>
+                        </button>
+                        <button onclick="updatePosisi('ala', this)" class="zharaf-btn active p-2 bg-arab-green text-white border border-arab-green rounded transition text-center shadow-sm ring-2 ring-offset-1 ring-arab-gold">
+                            <span class="block font-arabic text-xl">عَلَى</span>
+                            <span class="text-xs">Di atas (nempel)</span>
+                        </button>
+                        <button onclick="updatePosisi('fauqa', this)" class="zharaf-btn p-2 bg-white border hover:bg-arab-green hover:text-white rounded transition text-center shadow-sm">
+                            <span class="block font-arabic text-xl">فَوْقَ</span>
+                            <span class="text-xs">Di atas (jarak)</span>
+                        </button>
+                        <button onclick="updatePosisi('tahta', this)" class="zharaf-btn p-2 bg-white border hover:bg-arab-green hover:text-white rounded transition text-center shadow-sm">
+                            <span class="block font-arabic text-xl">تَحْتَ</span>
+                            <span class="text-xs">Di bawah</span>
+                        </button>
+                        <button onclick="updatePosisi('amama', this)" class="zharaf-btn p-2 bg-white border hover:bg-arab-green hover:text-white rounded transition text-center shadow-sm">
+                            <span class="block font-arabic text-xl">أَمَامَ</span>
+                            <span class="text-xs">Di depan</span>
+                        </button>
+                        <button onclick="updatePosisi('waraa', this)" class="zharaf-btn p-2 bg-white border hover:bg-arab-green hover:text-white rounded transition text-center shadow-sm">
+                            <span class="block font-arabic text-xl">وَرَاءَ</span>
+                            <span class="text-xs">Di belakang</span>
+                        </button>
+                        <button onclick="updatePosisi('janiba', this)" class="zharaf-btn p-2 bg-white border hover:bg-arab-green hover:text-white rounded transition text-center shadow-sm">
+                            <span class="block font-arabic text-xl">جَانِبَ</span>
+                            <span class="text-xs">Di samping</span>
+                        </button>
+                        <button onclick="updatePosisi('baina', this)" class="zharaf-btn p-2 bg-white border hover:bg-arab-green hover:text-white rounded transition text-center shadow-sm">
+                            <span class="block font-arabic text-xl">بَيْنَ</span>
+                            <span class="text-xs">Di antara</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Theory Card -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-arab-accent">
+                    <h3 class="font-bold text-lg mb-4 text-gray-800">💡 Rumus Penting: Baris Kasrah</h3>
+                    <p class="mb-4">Perhatikan perubahan bunyi akhir kata benda setelah kata posisi.</p>
+                    
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4">
+                        <div class="flex items-center justify-center space-x-2 text-xl md:text-2xl font-bold font-arabic mb-2">
+                            <span class="text-arab-green">الكُرْسِيُّ</span>
+                            <span>+</span>
+                            <span class="text-arab-gold">عَلَى</span>
+                            <span>=</span>
+                            <span class="text-arab-accent">عَلَى الكُرْسِيِّ</span>
+                        </div>
+                        <div class="text-center text-sm text-gray-600">
+                            (Al-Kursiyyu) + ('Ala) = ('Alal Kursiyy<strong>i</strong>)
+                        </div>
+                    </div>
+
+                    <ul class="list-disc pl-5 space-y-2 text-gray-700">
+                        <li>Kata Benda awalnya berakhiran <strong>"u"</strong> (Dhommah).</li>
+                        <li>Setelah didahului kata posisi (seperti <i>fii, 'ala, tahta</i>), akhiran berubah menjadi <strong>"i"</strong> (Kasrah).</li>
+                        <li><strong>Tips Hafalan:</strong> Ingat saja, kata posisi suka bikin kata temannya jadi "i".</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: DI SINI / DI SANA -->
+        <section id="content-petunjuk" class="fade-in hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-arab-gold mb-2">👈 Di Sini & Di Sana (Huna & Hunaka)</h2>
+                <p class="text-gray-600">Ada aturan unik saat menggunakan kata "Di Sini" dan "Di Sana". Susunan kalimat mengubah tata bahasanya!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Logic Visualizer -->
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-center text-lg mb-4">Laboratorium Kalimat</h3>
+                    <div class="bg-blue-50 p-6 rounded-xl text-center mb-6">
+                        <p class="text-sm text-blue-600 font-bold mb-4 uppercase tracking-wide">Hasil Kalimat</p>
+                        <div id="huna-result-arabic" class="text-4xl font-arabic font-bold text-gray-800 mb-4 leading-loose">هُنَا فَصْلٌ</div> 
+                        <div id="huna-result-indo" class="text-lg text-gray-600">Di sini (ada) kelas</div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">1. Pilih Kata Tunjuk:</label>
+                            <div class="flex space-x-2">
+                                <button id="btn-huna" onclick="setHunaType('huna')" class="flex-1 py-2 px-4 bg-arab-gold text-white rounded shadow hover:opacity-90 transition font-arabic text-lg">هُنَا (Di sini)</button>
+                                <button id="btn-hunaka" onclick="setHunaType('hunaka')" class="flex-1 py-2 px-4 bg-gray-200 text-gray-700 rounded shadow hover:bg-gray-300 transition font-arabic text-lg">هُنَاكَ (Di sana)</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-bold text-gray-700 mb-2">2. Pilih Posisi Kata Tunjuk:</label>
+                            <div class="flex rounded-md shadow-sm" role="group">
+                                <button onclick="setHunaPosition('depan')" id="btn-depan" class="flex-1 py-2 px-4 bg-arab-green text-white rounded-l border border-arab-green">Di Depan (Awal)</button>
+                                <button onclick="setHunaPosition('belakang')" id="btn-belakang" class="flex-1 py-2 px-4 bg-white text-gray-700 rounded-r border border-gray-300 hover:bg-gray-50">Di Belakang (Akhir)</button>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
+                            <strong>Aturan Aktif:</strong> <span id="huna-rule-text">Jika Kata Tunjuk di DEPAN, kata benda TIDAK pakai "Al" dan berakhiran tanwin (-un).</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vocabulary List -->
+                <div class="space-y-4">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-800">Pola 1: Di Depan</h4>
+                            <p class="text-sm text-gray-500">Rumus: Huna + Benda (un)</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-arabic text-2xl text-arab-green">هُنَا بَيْتٌ</div>
+                            <div class="text-xs text-gray-400">Di sini rumah</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-bold text-lg text-gray-800">Pola 2: Di Belakang</h4>
+                            <p class="text-sm text-gray-500">Rumus: Al-Benda (u) + Huna</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-arabic text-2xl text-arab-green">البَيْتُ هُنَا</div>
+                            <div class="text-xs text-gray-400">Rumah itu di sini</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: KEPEMILIKAN (DHAMIR) -->
+        <section id="content-milik" class="fade-in hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-blue-800 mb-2">🎒 Kata Ganti Kepemilikan (Dhamir)</h2>
+                <p class="text-gray-600">Bagaimana mengatakan "Buku saya", "Buku kamu", atau "Buku kita" dalam Bahasa Arab? Gunakan mesin di bawah ini!</p>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Calculator -->
+                <div class="w-full lg:w-2/3 bg-white p-8 rounded-xl shadow-lg border-t-4 border-blue-600">
+                    
+                    <!-- Noun Selector - IMPROVED SPACING -->
+                    <div class="mb-8">
+                         <p class="text-sm text-center text-gray-500 uppercase mb-4 font-bold tracking-widest">1. Pilih Kata Benda</p>
+                         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                             <button onclick="changeNoun('kitab')" class="noun-btn active p-3 border rounded-lg hover:bg-blue-50 flex flex-col items-center bg-blue-100 ring-2 ring-blue-500 transition-all">
+                                 <span class="text-2xl mb-1">📕</span>
+                                 <span class="text-xs font-semibold">Buku</span>
+                             </button>
+                             <button onclick="changeNoun('fashl')" class="noun-btn p-3 border rounded-lg hover:bg-blue-50 flex flex-col items-center transition-all">
+                                 <span class="text-2xl mb-1">🏫</span>
+                                 <span class="text-xs font-semibold">Kelas</span>
+                             </button>
+                             <button onclick="changeNoun('maktab')" class="noun-btn p-3 border rounded-lg hover:bg-blue-50 flex flex-col items-center transition-all">
+                                 <span class="text-2xl mb-1">🪑</span>
+                                 <span class="text-xs font-semibold">Meja</span>
+                             </button>
+                             <button onclick="changeNoun('qolam')" class="noun-btn p-3 border rounded-lg hover:bg-blue-50 flex flex-col items-center transition-all">
+                                 <span class="text-2xl mb-1">✏️</span>
+                                 <span class="text-xs font-semibold">Pulpen</span>
+                             </button>
+                             <button onclick="changeNoun('thollasah')" class="noun-btn p-3 border rounded-lg hover:bg-blue-50 flex flex-col items-center transition-all">
+                                 <span class="text-2xl mb-1">🧽</span>
+                                 <span class="text-xs font-semibold">Penghapus</span>
+                             </button>
+                         </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100 my-6"></div>
+
+                    <div class="flex flex-col md:flex-row items-center justify-center gap-6 mb-4">
+                        <!-- Object Display - IMPROVED SPACING -->
+                        <div class="flex flex-col items-center">
+                            <p class="text-xs text-gray-400 uppercase mb-2 tracking-widest">Kata Dasar</p>
+                            <div class="text-center p-5 bg-gray-50 rounded-lg w-full md:w-auto min-w-[140px] border border-gray-100 shadow-inner">
+                                <div id="noun-display-arabic" class="text-4xl font-arabic font-bold text-gray-800 mb-2 leading-relaxed">كِتَابٌ</div>
+                                <p id="noun-display-indo" class="text-sm text-gray-600 font-medium">(Buku)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="text-2xl text-blue-300 font-bold mt-6">+</div>
+
+                        <!-- Owner Selector -->
+                        <div class="w-full md:w-auto flex flex-col items-center">
+                             <p class="text-xs text-center text-gray-500 uppercase mb-2 tracking-widest">2. Pilih Pemilik</p>
+                             <div class="grid grid-cols-3 gap-2">
+                                <button onclick="updateMilik('ana')" class="milik-btn p-2 bg-blue-100 hover:bg-blue-200 rounded text-center transition font-bold text-blue-900 text-sm ring-2 ring-blue-400 border border-blue-300">Saya<br><span class="font-arabic font-normal">أَنَا</span></button>
+                                <button onclick="updateMilik('anta')" class="milik-btn p-2 bg-gray-100 hover:bg-gray-200 rounded text-center transition text-sm border">Kamu (L)<br><span class="font-arabic">أَنْتَ</span></button>
+                                <button onclick="updateMilik('anti')" class="milik-btn p-2 bg-gray-100 hover:bg-gray-200 rounded text-center transition text-sm border">Kamu (P)<br><span class="font-arabic">أَنْتِ</span></button>
+                                <button onclick="updateMilik('huwa')" class="milik-btn p-2 bg-gray-100 hover:bg-gray-200 rounded text-center transition text-sm border">Dia (L)<br><span class="font-arabic">هُوَ</span></button>
+                                <button onclick="updateMilik('hiya')" class="milik-btn p-2 bg-gray-100 hover:bg-gray-200 rounded text-center transition text-sm border">Dia (P)<br><span class="font-arabic">هِيَ</span></button>
+                                <button onclick="updateMilik('nahnu')" class="milik-btn p-2 bg-gray-100 hover:bg-gray-200 rounded text-center transition text-sm border">Kita<br><span class="font-arabic">نَحْنُ</span></button>
+                             </div>
+                        </div>
+
+                        <div class="text-2xl text-blue-300 font-bold mt-6">=</div>
+
+                        <!-- Result -->
+                        <div class="flex flex-col items-center">
+                            <p class="text-xs text-blue-600 uppercase mb-2 tracking-widest font-bold">Hasil Akhir</p>
+                            <div class="text-center p-6 bg-blue-50 rounded-xl border-2 border-blue-200 w-full md:w-auto min-w-[200px] shadow-sm transform transition hover:scale-105 duration-200">
+                                <div id="milik-result-arabic" class="text-5xl font-arabic font-bold text-blue-900 mb-4 leading-loose">كِتَابِي</div> 
+                                <p id="milik-result-indo" class="text-base font-bold text-gray-700">Bukuku</p>
+                                <div class="mt-3 pt-2 border-t border-blue-100">
+                                    <p id="milik-rumus" class="text-xs text-gray-500 bg-white px-3 py-1 rounded-full inline-block border shadow-sm">Rumus: Akhiran ...ii</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reference Table -->
+                <div class="w-full lg:w-1/3">
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                        <table class="w-full text-sm text-left text-gray-600">
+                            <thead class="text-xs text-white uppercase bg-blue-600">
+                                <tr>
+                                    <th scope="col" class="px-4 py-3">Orang</th>
+                                    <th scope="col" class="px-4 py-3 text-right">Akhiran</th>
+                                    <th scope="col" class="px-4 py-3 text-right">Bunyi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="bg-blue-50">
+                                    <td class="px-4 py-2 font-medium text-gray-900">Saya (Ana)</td>
+                                    <td class="px-4 py-2 text-right font-arabic text-lg text-blue-600">... ي</td>
+                                    <td class="px-4 py-2 text-right italic">-ii</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Kamu (Lk)</td>
+                                    <td class="px-4 py-2 text-right font-arabic text-lg">... كَ</td>
+                                    <td class="px-4 py-2 text-right italic">-uka</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Kamu (Pr)</td>
+                                    <td class="px-4 py-2 text-right font-arabic text-lg">... كِ</td>
+                                    <td class="px-4 py-2 text-right italic">-uki</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Dia (Lk)</td>
+                                    <td class="px-4 py-2 text-right font-arabic text-lg">... هُ</td>
+                                    <td class="px-4 py-2 text-right italic">-uhu</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Dia (Pr)</td>
+                                    <td class="px-4 py-2 text-right font-arabic text-lg">... هَا</td>
+                                    <td class="px-4 py-2 text-right italic">-uha</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-4 py-2">Kita</td>
+                                    <td class="px-4 py-2 text-right font-arabic text-lg">... نَا</td>
+                                    <td class="px-4 py-2 text-right italic">-una</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: KUIS (LATIHAN) -->
+        <section id="content-kuis" class="fade-in hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-arab-green mb-2">📝 Latihan & Kuis</h2>
+                <p class="text-gray-600">Ada total 15 soal (10 Pilihan Ganda & 5 Benar/Salah). Selamat mengerjakan!</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Quiz Area -->
+                <div class="md:col-span-3 bg-white p-6 rounded-xl shadow-lg"> <!-- Full width now -->
+                    <div id="quiz-container" class="max-w-2xl mx-auto">
+                        <div class="flex justify-between items-center mb-6">
+                            <span id="question-number" class="text-sm font-bold text-gray-500">Soal 1 dari 15</span>
+                            <span id="question-type-badge" class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full">Pilihan Ganda</span>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <h3 id="quiz-question" class="text-xl font-bold text-gray-800 mb-2">Pertanyaan...</h3>
+                            <p id="quiz-instruction" class="text-sm text-gray-500 italic">...</p>
+                        </div>
+
+                        <!-- Option Buttons Area -->
+                        <div id="quiz-options" class="grid grid-cols-1 gap-3">
+                            <!-- Options generated by JS -->
+                        </div>
+
+                        <div id="quiz-feedback" class="hidden mt-4 p-4 rounded-lg"></div>
+                        
+                        <button id="next-btn" onclick="nextQuestion()" class="hidden mt-6 w-full bg-arab-gold text-white font-bold py-3 rounded-lg hover:bg-yellow-600 transition">Soal Selanjutnya ➡</button>
+                    </div>
+
+                    <!-- Result View (Hidden initially) -->
+                    <div id="result-container" class="hidden text-center py-8">
+                        <div class="text-5xl mb-4">🎉</div>
+                        <h3 class="text-2xl font-bold text-arab-green mb-2">Kuis Selesai!</h3>
+                        <p class="text-gray-600 mb-6">Berikut adalah hasil latihanmu.</p>
+                        
+                        <!-- Chart Container -->
+                        <div class="chart-container mb-6">
+                            <canvas id="scoreChart"></canvas>
+                        </div>
+                        
+                        <p id="final-score-text" class="text-xl font-bold mb-6">Nilai Kamu: 0</p>
+                        <button onclick="resetQuiz()" class="bg-gray-200 text-gray-700 font-bold py-2 px-6 rounded-lg hover:bg-gray-300 transition">Ulangi Kuis ↺</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6 mt-auto">
+        <div class="container mx-auto px-4 text-center">
+            <p class="font-arabic text-xl mb-2">مَعَ النَّجَاحِ</p>
+            <p class="text-sm opacity-70">Semoga Sukses Belajarnya!</p>
+            <p class="text-xs text-gray-500 mt-4">Dibuat berdasarkan materi Rangkuman Bahasa Arab Kelas 5.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Navigation Logic ---
+        function switchTab(tabId) {
+            const sections = ['home', 'posisi', 'petunjuk', 'milik', 'kuis'];
+            sections.forEach(s => {
+                document.getElementById(`content-${s}`).classList.add('hidden');
+                document.getElementById(`tab-${s}`).classList.remove('active', 'border-b-4', 'border-arab-gold', 'text-arab-green', 'font-bold');
+                document.getElementById(`tab-${s}`).classList.add('text-gray-600');
+            });
+
+            const selectedSection = document.getElementById(`content-${tabId}`);
+            selectedSection.classList.remove('hidden');
+            
+            const selectedTab = document.getElementById(`tab-${tabId}`);
+            selectedTab.classList.add('active', 'border-b-4', 'border-arab-gold', 'text-arab-green', 'font-bold');
+            selectedTab.classList.remove('text-gray-600');
+        }
+
+        // --- Module 1: Posisi Visualizer Logic ---
+        function updatePosisi(type, btnElement) {
+            const object = document.getElementById('moving-object');
+            const arabicText = document.getElementById('posisi-arabic');
+            const indoText = document.getElementById('posisi-indo');
+            
+            // Handle Active Button State
+            const buttons = document.querySelectorAll('.zharaf-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active', 'bg-arab-green', 'text-white', 'ring-2', 'ring-offset-1', 'ring-arab-gold');
+                btn.classList.add('bg-white', 'hover:bg-arab-green', 'hover:text-white');
+            });
+
+            if(btnElement) {
+                btnElement.classList.remove('bg-white', 'hover:bg-arab-green', 'hover:text-white');
+                btnElement.classList.add('active', 'bg-arab-green', 'text-white', 'ring-2', 'ring-offset-1', 'ring-arab-gold');
+            }
+
+            object.style.transform = '';
+            object.style.opacity = '1';
+
+            const data = {
+                'fii': { textAr: 'القَلَمُ فِي المِقْلَمَةِ', textId: 'Pena di dalam tempat pensil', y: 0, icon: '✏️', refIcon: '👝' }, 
+                'ala': { textAr: 'الكِتَابُ عَلَى الكُرْسِيِّ', textId: 'Buku di atas (menempel) kursi', y: -25, x: 0, z: 20 },
+                'fauqa': { textAr: 'الكِتَابُ فَوْقَ الكُرْسِيِّ', textId: 'Buku di atas (melayang) kursi', y: -80, x: 0, z: 20 },
+                'tahta': { textAr: 'الكِتَابُ تَحْتَ الكُرْسِيِّ', textId: 'Buku di bawah kursi', y: 70, x: 0, z: 5 },
+                'amama': { textAr: 'الكِتَابُ أَمَامَ الكُرْسِيِّ', textId: 'Buku di depan kursi', y: 30, x: 0, z: 30, scale: 1.2 },
+                'waraa': { textAr: 'الكِتَابُ وَرَاءَ الكُرْسِيِّ', textId: 'Buku di belakang kursi', y: -20, x: 0, z: 0, opacity: 0.6 },
+                'janiba': { textAr: 'الكِتَابُ جَانِبَ الكُرْسِيِّ', textId: 'Buku di samping kursi', y: 20, x: 80, z: 20 },
+                'baina': { textAr: 'الكِتَابُ بَيْنَ الكُرْسِيَّيْنِ', textId: 'Buku di antara dua kursi', y: 0, x: 0, z: 20 }
+            };
+
+            const selected = data[type];
+            arabicText.textContent = selected.textAr;
+            indoText.textContent = selected.textId;
+
+            if (type === 'fii') {
+                object.textContent = selected.icon;
+                object.parentElement.querySelector('.absolute:first-child').textContent = selected.refIcon;
+                object.style.transform = 'translate(0, 10px) scale(0.8)';
+            } else {
+                object.textContent = '📕';
+                object.parentElement.querySelector('.absolute:first-child').textContent = '🪑';
+                
+                let transform = `translate(${selected.x || 0}px, ${selected.y}px)`;
+                if (selected.scale) transform += ` scale(${selected.scale})`;
+                
+                object.style.transform = transform;
+                object.style.zIndex = selected.z;
+                if (selected.opacity) object.style.opacity = selected.opacity;
+            }
+        }
+
+        // --- Module 2: Huna/Hunaka Logic ---
+        let currentHunaType = 'huna'; // huna or hunaka
+        let currentHunaPos = 'depan'; // depan or belakang
+
+        function setHunaType(type) {
+            currentHunaType = type;
+            
+            // Update button styles
+            const btnHuna = document.getElementById('btn-huna');
+            const btnHunaka = document.getElementById('btn-hunaka');
+
+            // Reset styles
+            [btnHuna, btnHunaka].forEach(btn => {
+                btn.className = 'flex-1 py-2 px-4 bg-gray-200 text-gray-700 rounded shadow hover:bg-gray-300 transition font-arabic text-lg';
+            });
+
+            // Set active style
+            const activeBtn = type === 'huna' ? btnHuna : btnHunaka;
+            activeBtn.className = 'flex-1 py-2 px-4 bg-arab-gold text-white rounded shadow hover:opacity-90 transition font-arabic text-lg';
+
+            updateHunaUI();
+        }
+
+        function setHunaPosition(pos) {
+            currentHunaPos = pos;
+            
+            const btnDepan = document.getElementById('btn-depan');
+            const btnBelakang = document.getElementById('btn-belakang');
+            
+            if (pos === 'depan') {
+                btnDepan.className = 'flex-1 py-2 px-4 bg-arab-green text-white rounded-l border border-arab-green';
+                btnBelakang.className = 'flex-1 py-2 px-4 bg-white text-gray-700 rounded-r border border-gray-300 hover:bg-gray-50';
+            } else {
+                btnDepan.className = 'flex-1 py-2 px-4 bg-white text-gray-700 rounded-l border border-gray-300 hover:bg-gray-50';
+                btnBelakang.className = 'flex-1 py-2 px-4 bg-arab-green text-white rounded-r border border-arab-green';
+            }
+            
+            updateHunaUI();
+        }
+
+        function updateHunaUI() {
+            const arabicEl = document.getElementById('huna-result-arabic');
+            const indoEl = document.getElementById('huna-result-indo');
+            const ruleEl = document.getElementById('huna-rule-text');
+
+            const words = {
+                'huna': { ar: 'هُنَا', id: 'Di sini' },
+                'hunaka': { ar: 'هُنَاكَ', id: 'Di sana' },
+                'noun': { arUn: 'فَصْلٌ', arAl: 'الفَصْلُ', id: 'kelas' }
+            };
+
+            const ptr = words[currentHunaType];
+            const noun = words['noun'];
+
+            if (currentHunaPos === 'depan') {
+                arabicEl.textContent = `${ptr.ar} ${noun.arUn}`;
+                indoEl.textContent = `${ptr.id} (ada) ${noun.id}`;
+                ruleEl.textContent = `Jika Kata Tunjuk di DEPAN, kata benda TIDAK pakai "Al" dan berakhiran tanwin (-un).`;
+            } else {
+                arabicEl.textContent = `${noun.arAl} ${ptr.ar}`;
+                indoEl.textContent = `Kelas itu ${ptr.id.toLowerCase()}`;
+                ruleEl.textContent = `Jika Kata Tunjuk di BELAKANG, kata benda HARUS pakai "Al" dan berakhiran dhommah (-u).`;
+            }
+        }
+
+        // --- Module 3: Kepemilikan Logic ---
+        
+        let currentNoun = 'kitab';
+        let currentOwner = 'ana';
+
+        const nounData = {
+            'kitab': { root: 'كِتَاب', indo: 'Buku', baseIndo: 'Buku', baseAr: 'كِتَابٌ' },
+            'fashl': { root: 'فَصْل', indo: 'Kelas', baseIndo: 'Kelas', baseAr: 'فَصْلٌ' },
+            'maktab': { root: 'مَكْتَب', indo: 'Meja', baseIndo: 'Meja', baseAr: 'مَكْتَبٌ' },
+            'qolam': { root: 'قَلَم', indo: 'Pulpen', baseIndo: 'Pulpen', baseAr: 'قَلَمٌ' },
+            'thollasah': { root: 'طَلَّاسَة', indo: 'Penghapus', baseIndo: 'Penghapus', baseAr: 'طَلَّاسَةٌ' }
+        };
+
+        const ownerData = {
+            'ana': { suffix: 'ِي', latin: '...ii', indoSuffix: 'ku', btnText: 'Saya' },
+            'anta': { suffix: 'ُكَ', latin: '...uka', indoSuffix: 'mu (Lk)', btnText: 'Kamu (L)' },
+            'anti': { suffix: 'ُكِ', latin: '...uki', indoSuffix: 'mu (Pr)', btnText: 'Kamu (P)' },
+            'huwa': { suffix: 'ُهُ', latin: '...uhu', indoSuffix: 'nya (Lk)', btnText: 'Dia (L)' },
+            'hiya': { suffix: 'ُهَا', latin: '...uha', indoSuffix: 'nya (Pr)', btnText: 'Dia (P)' },
+            'nahnu': { suffix: 'ُنَا', latin: '...una', indoSuffix: ' kita', btnText: 'Kita' }
+        };
+
+        function changeNoun(noun) {
+            currentNoun = noun;
+            // Update Noun Buttons
+            document.querySelectorAll('.noun-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-100', 'ring-2', 'ring-blue-500');
+            });
+            event.currentTarget.classList.add('active', 'bg-blue-100', 'ring-2', 'ring-blue-500');
+
+            // Update Display Base
+            document.getElementById('noun-display-arabic').textContent = nounData[noun].baseAr;
+            document.getElementById('noun-display-indo').textContent = `(${nounData[noun].baseIndo})`;
+
+            // Update Result
+            updateMilikResult();
+        }
+
+        function updateMilik(person) {
+            currentOwner = person;
+            
+            // Update Owner Buttons
+            document.querySelectorAll('.milik-btn').forEach(btn => {
+                btn.className = 'milik-btn p-2 bg-gray-100 hover:bg-gray-200 rounded text-center transition text-sm border';
+            });
+            event.currentTarget.className = 'milik-btn p-2 bg-blue-100 hover:bg-blue-200 rounded text-center transition font-bold text-blue-900 text-sm ring-2 ring-blue-400 border border-blue-300';
+
+            // Update Result
+            updateMilikResult();
+        }
+
+        function updateMilikResult() {
+            const noun = nounData[currentNoun];
+            const owner = ownerData[currentOwner];
+
+            let root = noun.root;
+            
+            let displayArabic = "";
+            if (currentNoun === 'thollasah') {
+               // Replace ة with ت
+               const openTaRoot = root.slice(0, -1) + 'ت'; 
+               displayArabic = openTaRoot + owner.suffix;
+            } else {
+               displayArabic = root + owner.suffix;
+            }
+
+            document.getElementById('milik-result-arabic').textContent = displayArabic;
+            document.getElementById('milik-result-indo').textContent = noun.indo + owner.indoSuffix;
+            document.getElementById('milik-rumus').textContent = `Rumus: Akhiran ${owner.latin}`;
+        }
+
+        // --- Module 4: Expanded Quiz Logic ---
+        
+        const questions = [
+            // Original 5 MC Questions
+            {
+                type: 'mc',
+                q: "Apa bahasa Arab dari 'Di atas meja' (menempel)?",
+                options: ["فَوْقَ المَكْتَبِ", "عَلَى المَكْتَبِ", "فِي المَكْتَبِ", "تَحْتَ المَكْتَبِ"],
+                correct: 1, 
+                explanation: "'Ala (عَلَى) digunakan untuk 'di atas' yang menempel."
+            },
+            {
+                type: 'mc',
+                q: "Lengkapi kalimat: ... البَيْتُ (Di belakang rumah)",
+                options: ["وَرَاءَ", "أَمَامَ", "فِي", "جَانِبَ"],
+                correct: 0,
+                explanation: "Wara'a (وَرَاءَ) artinya di belakang."
+            },
+            {
+                type: 'mc',
+                q: "Terjemahkan: 'Pena milik saya'",
+                options: ["قَلَمُكَ", "قَلَمُهُ", "قَلَمِي", "قَلَمُنَا"],
+                correct: 2,
+                explanation: "Milik saya menggunakan akhiran Ya mati (...ii)."
+            },
+            {
+                type: 'mc',
+                q: "Manakah susunan kalimat yang benar untuk 'Di sana (ada) rumah'?",
+                options: ["هُنَا الْفَصْلُ", "هُنَاكَ بَيْتٌ", "الْفَصْلُ هُنَاكَ", "بَيْتٌ هُنَا"],
+                correct: 1,
+                explanation: "Hunaka Baitun (هُنَاكَ بَيْتٌ) benar karena Hunaka di depan, kata benda tanwin."
+            },
+            {
+                type: 'mc',
+                q: "Jika 'Kitabun' (Buku) + 'Nahnu' (Kita), menjadi...",
+                options: ["كِتَابُنَا", "كِتَابُهَا", "كِتَابُكَ", "كِتَابِي"],
+                correct: 0,
+                explanation: "Milik kita menggunakan akhiran '...una' (نَا)."
+            },
+            // Added 5 MC Questions (Total 10 MC)
+            {
+                type: 'mc',
+                q: "Apa arti dari 'أَمَامَ' (Amama)?",
+                options: ["Di belakang", "Di depan", "Di samping", "Di antara"],
+                correct: 1,
+                explanation: "Amama (أَمَامَ) artinya Di depan."
+            },
+            {
+                type: 'mc',
+                q: "Bahasa Arab dari 'Di bawah' adalah...",
+                options: ["تَحْتَ", "فَوْقَ", "عَلَى", "جَانِبَ"],
+                correct: 0,
+                explanation: "Tahta (تَحْتَ) artinya Di bawah."
+            },
+            {
+                type: 'mc',
+                q: "Bahasa Arab untuk 'Pulpen milikmu (laki-laki)' adalah...",
+                options: ["قَلَمُكِ", "قَلَمِي", "قَلَمُكَ", "قَلَمُهُ"],
+                correct: 2,
+                explanation: "Milik kamu (laki-laki) menggunakan akhiran '...ka'."
+            },
+            {
+                type: 'mc',
+                q: "Susunan yang benar: 'Di sana sekolah'...",
+                options: ["هُنَاكَ مَدْرَسَةٌ", "هُنَا مَدْرَسَةٌ", "مَدْرَسَةٌ هُنَاكَ", "الْمَدْرَسَةُ هُنَاكَ"],
+                correct: 0,
+                explanation: "'Di sana' = Hunaka. Karena 'sekolah' umum, maka 'Hunaka Madrasatun'."
+            },
+            {
+                type: 'mc',
+                q: "Lengkapi: Al-Kitabu ... Al-Mahfazhati (Buku itu di dalam tas)",
+                options: ["عَلَى", "فَوْقَ", "فِي", "تَحْتَ"],
+                correct: 2,
+                explanation: "'Di dalam' bahasa Arabnya adalah 'Fii'."
+            },
+            // Added 5 True/False Questions (Total 15 Questions)
+            {
+                type: 'tf',
+                q: "Benar atau Salah: 'Fauqa' (فَوْقَ) artinya 'Di bawah'.",
+                correct: false, 
+                explanation: "Salah. Fauqa artinya 'Di atas (tidak menempel)'. Tahta artinya 'Di bawah'."
+            },
+            {
+                type: 'tf',
+                q: "Benar atau Salah: Kalimat 'هُنَا فَصْلٌ' (Huna Fashlun) adalah susunan yang benar.",
+                correct: true,
+                explanation: "Benar. Jika Huna di depan, kata benda tanwin (un)."
+            },
+            {
+                type: 'tf',
+                q: "Benar atau Salah: 'Kitabuki' (كِتَابُكِ) artinya 'Buku dia (perempuan)'.",
+                correct: false,
+                explanation: "Salah. Kitabuki artinya 'Buku kamu (perempuan)'. Buku dia (pr) adalah 'Kitabuha'."
+            },
+            {
+                type: 'tf',
+                q: "Benar atau Salah: Setelah kata 'Ala' (عَلَى), kata benda berakhiran 'u' (dhommah).",
+                correct: false,
+                explanation: "Salah. Setelah kata posisi, kata benda harus berakhiran 'i' (kasrah). Contoh: 'Alal Kursiyyi'."
+            },
+            {
+                type: 'tf',
+                q: "Benar atau Salah: 'Wara'a' (وَرَاءَ) artinya 'Di belakang'.",
+                correct: true,
+                explanation: "Benar. Wara'a artinya Di belakang."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let chartInstance = null;
+
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').textContent = `Soal ${currentQuestion + 1} dari ${questions.length}`;
+            document.getElementById('quiz-question').textContent = q.q;
+            
+            const badge = document.getElementById('question-type-badge');
+            const instruction = document.getElementById('quiz-instruction');
+            const optsContainer = document.getElementById('quiz-options');
+            optsContainer.innerHTML = '';
+            
+            // Adjust layouts based on type
+            if (q.type === 'mc') {
+                badge.textContent = "Pilihan Ganda";
+                badge.className = "px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full";
+                instruction.textContent = "Pilih satu jawaban yang paling tepat.";
+                
+                // Grid layout for MC
+                optsContainer.className = "grid grid-cols-1 md:grid-cols-2 gap-3"; 
+
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'w-full text-center p-4 rounded-lg border border-gray-200 hover:bg-gray-50 transition font-medium font-arabic text-xl';
+                    btn.textContent = opt;
+                    btn.onclick = () => checkAnswer(idx, btn);
+                    optsContainer.appendChild(btn);
+                });
+            } else {
+                badge.textContent = "Benar / Salah";
+                badge.className = "px-3 py-1 bg-blue-100 text-blue-800 text-xs font-bold rounded-full";
+                instruction.textContent = "Tentukan apakah pernyataan ini Benar atau Salah.";
+                
+                // Simple 2-col layout for TF
+                optsContainer.className = "grid grid-cols-2 gap-4";
+
+                const btnTrue = document.createElement('button');
+                btnTrue.className = 'w-full p-6 rounded-xl border-2 border-green-200 bg-green-50 hover:bg-green-100 text-green-800 font-bold text-lg transition';
+                btnTrue.innerHTML = "✅ BENAR";
+                btnTrue.onclick = () => checkAnswer(true, btnTrue);
+
+                const btnFalse = document.createElement('button');
+                btnFalse.className = 'w-full p-6 rounded-xl border-2 border-red-200 bg-red-50 hover:bg-red-100 text-red-800 font-bold text-lg transition';
+                btnFalse.innerHTML = "❌ SALAH";
+                btnFalse.onclick = () => checkAnswer(false, btnFalse);
+
+                optsContainer.appendChild(btnTrue);
+                optsContainer.appendChild(btnFalse);
+            }
+
+            document.getElementById('quiz-feedback').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function checkAnswer(userAnswer, btnElement) {
+            const q = questions[currentQuestion];
+            const feedback = document.getElementById('quiz-feedback');
+            const allBtns = document.getElementById('quiz-options').children;
+
+            // Disable all buttons
+            for(let btn of allBtns) {
+                btn.disabled = true;
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+            }
+            btnElement.classList.remove('opacity-50');
+
+            let isCorrect = false;
+            
+            if (q.type === 'mc') {
+                if (userAnswer === q.correct) isCorrect = true;
+            } else {
+                if (userAnswer === q.correct) isCorrect = true;
+            }
+
+            if (isCorrect) {
+                score++;
+                btnElement.classList.remove('bg-green-50', 'bg-white', 'border-gray-200', 'border-green-200'); // Reset base
+                btnElement.classList.add('bg-green-100', 'border-green-500', 'text-green-900', 'ring-2', 'ring-green-400');
+                feedback.innerHTML = `<span class="font-bold text-green-700">✅ Jawaban Kamu Benar!</span> <br> ${q.explanation}`;
+                feedback.className = 'mt-4 p-4 rounded-lg bg-green-50 border border-green-200 block';
+            } else {
+                btnElement.classList.remove('bg-red-50', 'bg-white', 'border-gray-200', 'border-red-200'); // Reset base
+                btnElement.classList.add('bg-red-100', 'border-red-500', 'text-red-900');
+                
+                // Highlight correct answer logic
+                if (q.type === 'mc') {
+                    const correctBtn = allBtns[q.correct];
+                    correctBtn.classList.remove('opacity-50');
+                    correctBtn.classList.add('bg-green-100', 'border-green-500', 'text-green-900');
+                    feedback.innerHTML = `<span class="font-bold text-red-700">❌ Jawaban Kamu Salah.</span> <br> Jawaban yang benar adalah <strong class="font-arabic text-xl">${q.options[q.correct]}</strong>. <br>${q.explanation}`;
+                } else {
+                    const correctIndex = q.correct ? 0 : 1; // 0 is True btn, 1 is False btn
+                    const correctBtn = allBtns[correctIndex];
+                    correctBtn.classList.remove('opacity-50');
+                    correctBtn.classList.add('bg-green-100', 'border-green-500', 'text-green-900');
+                    feedback.innerHTML = `<span class="font-bold text-red-700">❌ Jawaban Kamu Salah.</span> <br> Pernyataan ini <strong>${q.correct ? 'BENAR' : 'SALAH'}</strong>. <br>${q.explanation}`;
+                }
+                
+                feedback.className = 'mt-4 p-4 rounded-lg bg-red-50 border border-red-200 block';
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').classList.add('hidden');
+            document.getElementById('result-container').classList.remove('hidden');
+            
+            const finalScore = Math.round((score / questions.length) * 100);
+            document.getElementById('final-score-text').textContent = `Nilai Kamu: ${finalScore} / 100`;
+
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+            if(chartInstance) chartInstance.destroy();
+            
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Benar', 'Salah'],
+                    datasets: [{
+                        data: [score, questions.length - score],
+                        backgroundColor: ['#0F5132', '#E5E7EB'], 
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById('result-container').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        switchTab('home');
+        loadQuestion();
+
+    </script>
+</body>
+</html>
